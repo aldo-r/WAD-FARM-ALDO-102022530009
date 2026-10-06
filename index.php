@@ -1,0 +1,145 @@
+<?php
+include_once("config.php");
+$result = mysqli_query($mysqli, "SELECT * FROM deterjen ORDER BY id DESC");
+?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="tailwind-config.js"></script>
+  <title>Deterjen_index</title>
+</head>
+
+<body class="bg-gray-200">
+
+  <nav class="flex flex-row border border-gray-200 bg-white py-3 px-4 w-full h-[75px] mb-3">
+    <div class="basis-1/3 h-full content-center">
+      <h1 class="font-bold text-lg text-gray-600">Laundry_Sistem</h1>
+    </div>
+    <div class="basis-2/3 h-full flex justify-end">
+      <input id="search-input" type="text" placeholder="Search or type command..."
+        class="h-11 w-[45%] outline outline-offset-2 rounded-lg px-2" />
+    </div>
+  </nav>
+
+  <div class="px-[5%]">
+    <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mt-4">
+      <h1 class="text-2xl text-theme-sm font-bold text-slate-900 tracking-tight">Stok Deterjen</h1>
+      <div>
+        <ol class="flex items-center gap-1.5">
+          <li>
+            <a class="inline-flex items-center gap-1.5 text-sm text-gray-500" href="index.html">
+              Home
+              <svg class="stroke-current rtl:rotate-180" width="17" height="16" viewBox="0 0 17 16" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </li>
+          <li class="text-sm text-gray-800 " x-text="pageName">Basic Tables</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+      <div class="rounded-2xl border border-gray-200 bg-white ">
+        <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
+          <h3 class="text-base font-medium text-gray-800">
+            Basic Table 1
+          </h3>
+          <a href="add_stok.php"
+            class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">Add
+            Stok</a>
+        </div>
+        <div class="p-5 border-t border-gray-100  sm:p-6">
+
+          <div class="overflow-hidden rounded-xl border border-gray-200 bg-white ">
+            <div class="custom-scrollbar max-w-full overflow-x-auto">
+              <table class="w-full min-w-275.5">
+                <thead>
+                  <tr class="border-b border-gray-100 ">
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500 ">
+                        Merek
+                      </p>
+                    </th>
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500">
+                        Jenis
+                      </p>
+                    </th>
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500 ">
+                        Stok
+                      </p>
+                    </th>
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500">
+                        Taggal_Pembelian
+                      </p>
+                    </th>
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500 ">
+                        Supplier
+                      </p>
+                    </th>
+                    <th class="px-5 py-3 text-left sm:px-6 rtl:text-right">
+                      <p class="text-theme-xs font-medium text-gray-500">
+                        Actions
+                      </p>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <?php while($deterjen_data = mysqli_fetch_array($result)): ?>
+                    <tr class="border-b border-gray-100">
+                      <td class="px-5 py-4 sm:px-6" colspan="1">
+                        <p class="text-theme-sm text-gray-500">
+                          <?= htmlspecialchars($deterjen_data['merek']) ?>
+                        </p>
+                      </td>
+                      <td class="px-5 py-4 sm:px-6">
+                        <p class="text-theme-sm text-gray-500">
+                          <?= htmlspecialchars($deterjen_data['jenis']) ?>
+                        </p>
+                      </td>
+                      <td class="px-5 py-4 sm:px-6">
+                        <p class="text-theme-sm text-gray-500">
+                          <?= htmlspecialchars($deterjen_data['stok']) ?>
+                        </p>
+                      </td>
+                      <td class="px-5 py-4 sm:px-6">
+                        <p class="bg-success-50 text-theme-xs text-success-700 inline-block rounded-full px-2 py-0.5 font-medium">
+                          <?= htmlspecialchars($deterjen_data['tanggal_pemebelian']) ?>
+                        </p>
+                      </td>
+                      <td class="px-5 py-4 sm:px-6">
+                        <p class="text-theme-sm text-gray-500">
+                          <?= htmlspecialchars($deterjen_data['supplier']) ?>
+                        </p>
+                      </td>
+                      <td class="px-5 py-4 sm:px-6 flex justify-start gap-3">
+                        <a href="edit.php?id=<?= $deterjen_data['id'] ?>"
+                          class="bg-transparent hover:bg-yellow-500 text-yellow-700 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded">Edit</a>
+                        <a href="delete.php?id=<?= $deterjen_data['id'] ?>" onclick="return confirm('Yakin ingin menghapus data ini?')"
+                          class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</a>
+                      </td>
+                    </tr>
+                  <?php endwhile; ?>                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

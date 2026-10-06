@@ -1,0 +1,181 @@
+<?php
+include_once("config.php");
+
+if (isset($_POST['Update'])) {
+    $id = (int) $_POST['id'];
+    $merek = $_POST['merek'];
+    $stok = (int) $_POST['stok'];
+    $jenis = $_POST['jenis'];
+    $supplier = $_POST['supplier'];
+    $tanggal_pembelian = $_POST['tanggal_pembelian'];
+
+    $stmt = mysqli_prepare($mysqli, "UPDATE deterjen SET merek=?, jenis=?, supplier=?, tanggal_pemebelian=?, stok=? WHERE id=?");
+    mysqli_stmt_bind_param($stmt, "ssssii", $merek, $jenis, $supplier, $tanggal_pembelian, $stok, $id);
+    $result = mysqli_stmt_execute($stmt);
+
+    if ($result) {
+        header('Location: index.php?status=sukses');
+        exit();
+    } else {
+        header('Location: index.php?status=gagal');
+        exit();
+    }
+}
+
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$query = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
+$data = mysqli_fetch_assoc($query);
+
+if (!$data) {
+    header('Location: index.php?status=gagal');
+    exit();
+}
+
+$merek = $data['merek'];
+$stok = $data['stok'];
+$jenis = $data['jenis'];
+$supplier = $data['supplier'];
+$tanggal_pembelian = $data['tanggal_pemebelian'];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>edit_stok</title>
+</head>
+
+<body class="bg-gray-200">
+
+    <nav class="flex flex-row border border-gray-200 bg-white py-3 px-4 w-full h-[75px] mb-3">
+        <div class="basis-1/3 h-full content-center">
+            <a href="index.php" class="font-bold text-lg text-gray-600">Laundry_Sistem</a>
+        </div>
+        <div class="basis-2/3 h-full flex justify-end">
+            <input id="search-input" type="text" placeholder="Search or type command..."
+                class="h-11 w-[45%] outline outline-offset-2 rounded-lg px-2" />
+        </div>
+    </nav>
+
+    <div class="px-[5%]">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mt-4">
+            <h1 class="text-2xl text-theme-sm font-bold text-slate-900 tracking-tight">Stok Deterjen</h1>
+            <div>
+                <ol class="flex items-center gap-1.5">
+                    <li>
+                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500" href="index.php">
+                            Home
+                            <svg class="stroke-current rtl:rotate-180" width="17" height="16" viewBox="0 0 17 16"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="inline-flex items-center gap-1.5 text-sm text-gray-500">
+                        <p>Basic Tables</p>
+                        <svg class="stroke-current rtl:rotate-180" width="17" height="16" viewBox="0 0 17 16"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </li>
+                    <li class="text-sm text-gray-800">
+                        <p>Edit Form</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+            <div class="rounded-2xl border border-gray-200 bg-white ">
+                <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
+                    <h3 class="text-base font-medium text-gray-800">
+                        Edit Form
+                    </h3>
+                    <a href="index.php"
+                        class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded flex justify-center gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                        <p>Back Home</p>
+                    </a>
+                </div>
+                <div class="p-5 border-t border-gray-100 sm:p-6">
+                    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                        <div class="custom-scrollbar max-w-full overflow-x-auto">
+
+                            <form action="" method="post" name="form1"
+                                class="space-y-6 border-t bg-white rounded-lg p-5 sm:p-6">
+                                <input type="hidden" name="id" value="<?php echo $id; ?>">
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Merek</label>
+                                    <input type="text" name="merek" required
+                                        value="<?php echo htmlspecialchars($merek); ?>"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                                </div>
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Stok</label>
+                                    <input type="number" name="stok" required
+                                        value="<?php echo htmlspecialchars($stok); ?>"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                                </div>
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Jenis</label>
+                                    <div class="relative z-20 bg-transparent">
+                                        <select name="jenis" required
+                                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                                            <option value="" disabled>-- Pilih Jenis --</option>
+                                            <option value="Deterjen" class="text-gray-700" <?php echo ($jenis == 'Deterjen') ? 'selected' : ''; ?>>Deterjen</option>
+                                            <option value="Pewangi" class="text-gray-700" <?php echo ($jenis == 'Pewangi') ? 'selected' : ''; ?>>Pewangi</option>
+                                            <option value="Pelembut" class="text-gray-700" <?php echo ($jenis == 'Pelembut') ? 'selected' : ''; ?>>Pelembut</option>
+                                        </select>
+                                        <span class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
+                                            <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                <path d="M4.79175 7.396L10.0001 12.6043L15.2084 7.396" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Supplier</label>
+                                    <input type="text" name="supplier" required
+                                        value="<?php echo htmlspecialchars($supplier); ?>"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                                </div>
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Tanggal Pembelian</label>
+                                    <input type="date" name="tanggal_pembelian" required
+                                        value="<?php echo htmlspecialchars($tanggal_pembelian); ?>"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
+                                </div>
+
+                                <div class="flex justify-end items-center">
+                                    <button type="submit" name="Update"
+                                        class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded cursor-pointer">
+                                        Update
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
