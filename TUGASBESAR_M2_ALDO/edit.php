@@ -1,15 +1,27 @@
 <?php
 include_once("config.php");
 
-if (isset($_POST['Update'])) {
-    $id = (int) $_POST['id'];
+$id = $_GET['id'];
+$result = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
+
+$data = mysqli_fetch_assoc($result);
+
+if (isset($_POST['Update'])) 
+{
     $merek = $_POST['merek'];
-    $stok = (int) $_POST['stok'];
+    $stok = $_POST['stok'];
     $jenis = $_POST['jenis'];
     $supplier = $_POST['supplier'];
-    $tanggal_pembelian = $_POST['tanggal_pembelian'];
+    $tanggal_pemebelian = $_POST['tanggal_pembelian'];
 
-    $result = mysqli_prepare($mysqli, "UPDATE deterjen SET merek='$merek', jenis='$jenis', supplier='$supplier', tanggal_pemebelian='$tanggal_pemebelian', stok='$stok' WHERE id=$id");
+    $query = "UPDATE deterjen SET 
+                merek='$merek', 
+                jenis='$jenis', 
+                supplier='$supplier', 
+                tanggal_pemebelian='$tanggal_pemebelian', 
+                stok='$stok' 
+              WHERE id='$id'";
+    $result = mysqli_query($mysqli,$query);
 
     if ($result) {
         header('Location: index.php?status=sukses');
@@ -18,28 +30,14 @@ if (isset($_POST['Update'])) {
         header('Location: index.php?status=gagal');
         exit();
     }
+    
 }
 ?>
 
-<?php
-$id = $_GET['id'];
-$result = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
 
-while($data = mysqli_fetch_array($result))
-{
-    $merek = $data['merek'];
-    $stok = $data['stok'];
-    $jenis = $data['jenis'];
-    $supplier = $data['supplier'];
-    $tanggal_pembelian = $data['tanggal_pemebelian'];
-}
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,19 +110,18 @@ while($data = mysqli_fetch_array($result))
 
                             <form action="" method="post" name="form1"
                                 class="space-y-6 border-t bg-white rounded-lg p-5 sm:p-6">
-                                <input type="hidden" name="id" value="<?php echo $id; ?>">
 
                                 <div>
                                     <label class="mb-1.5 block text-sm font-medium text-gray-700">Merek</label>
                                     <input type="text" name="merek" required
-                                        value="<?php echo htmlspecialchars($merek); ?>"
+                                        value="<?php echo $data['merek']; ?>"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
                                 </div>
 
                                 <div>
                                     <label class="mb-1.5 block text-sm font-medium text-gray-700">Stok</label>
                                     <input type="number" name="stok" required
-                                        value="<?php echo htmlspecialchars($stok); ?>"
+                                        value="<?php echo $data['stok'];?>"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
                                 </div>
 
@@ -134,9 +131,9 @@ while($data = mysqli_fetch_array($result))
                                         <select name="jenis" required
                                             class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
                                             <option value="" disabled>-- Pilih Jenis --</option>
-                                            <option value="Deterjen" class="text-gray-700" <?php echo ($jenis == 'Deterjen') ? 'selected' : ''; ?>>Deterjen</option>
-                                            <option value="Pewangi" class="text-gray-700" <?php echo ($jenis == 'Pewangi') ? 'selected' : ''; ?>>Pewangi</option>
-                                            <option value="Pelembut" class="text-gray-700" <?php echo ($jenis == 'Pelembut') ? 'selected' : ''; ?>>Pelembut</option>
+                                            <option value="Deterjen" class="text-gray-700">Deterjen</option>
+                                            <option value="Pewangi" class="text-gray-700">Pewangi</option>
+                                            <option value="Pelembut" class="text-gray-700">Pelembut</option>
                                         </select>
                                         <span class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
                                             <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -149,14 +146,14 @@ while($data = mysqli_fetch_array($result))
                                 <div>
                                     <label class="mb-1.5 block text-sm font-medium text-gray-700">Supplier</label>
                                     <input type="text" name="supplier" required
-                                        value="<?php echo htmlspecialchars($supplier); ?>"
+                                        value="<?php echo $data['supplier'];?>"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
                                 </div>
 
                                 <div>
                                     <label class="mb-1.5 block text-sm font-medium text-gray-700">Tanggal Pembelian</label>
                                     <input type="date" name="tanggal_pembelian" required
-                                        value="<?php echo htmlspecialchars($tanggal_pembelian); ?>"
+                                        value="<?php echo $data['tanggal_pemebelian'];?>"
                                         class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden">
                                 </div>
 
