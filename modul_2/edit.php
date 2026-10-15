@@ -9,7 +9,7 @@ if (isset($_POST['Update'])) {
     $supplier = $_POST['supplier'];
     $tanggal_pembelian = $_POST['tanggal_pembelian'];
 
-    $result = mysqli_prepare($mysqli, "UPDATE deterjen SET merek=merek, jenis=jenis, supplier=supplier, tanggal_pemebelian=tanggal_pemebelian, stok=stok WHERE id=id");
+    $result = mysqli_prepare($mysqli, "UPDATE deterjen SET merek='$merek', jenis='$jenis', supplier='$supplier', tanggal_pemebelian='$tanggal_pemebelian', stok='$stok' WHERE id=$id");
 
     if ($result) {
         header('Location: index.php?status=sukses');
