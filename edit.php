@@ -25,7 +25,7 @@ if (isset($_POST['Update'])) {
 $id = $_GET['id'];
 $result = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
 
-while($user_data = mysqli_fetch_array($result))
+while($data = mysqli_fetch_array($result))
 {
     $merek = $data['merek'];
     $stok = $data['stok'];
