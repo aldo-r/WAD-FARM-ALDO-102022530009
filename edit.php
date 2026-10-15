@@ -9,9 +9,7 @@ if (isset($_POST['Update'])) {
     $supplier = $_POST['supplier'];
     $tanggal_pembelian = $_POST['tanggal_pembelian'];
 
-    $stmt = mysqli_prepare($mysqli, "UPDATE deterjen SET merek=?, jenis=?, supplier=?, tanggal_pemebelian=?, stok=? WHERE id=?");
-    mysqli_stmt_bind_param($stmt, "ssssii", $merek, $jenis, $supplier, $tanggal_pembelian, $stok, $id);
-    $result = mysqli_stmt_execute($stmt);
+    $result = mysqli_prepare($mysqli, "UPDATE deterjen SET merek=merek, jenis=jenis, supplier=supplier, tanggal_pemebelian=tanggal_pemebelian, stok=stok WHERE id=id");
 
     if ($result) {
         header('Location: index.php?status=sukses');
@@ -21,21 +19,22 @@ if (isset($_POST['Update'])) {
         exit();
     }
 }
+?>
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$query = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
-$data = mysqli_fetch_assoc($query);
+<?php
+$id = $_GET['id'];
+$result = mysqli_query($mysqli, "SELECT * FROM deterjen WHERE id=$id");
 
-if (!$data) {
-    header('Location: index.php?status=gagal');
-    exit();
+while($user_data = mysqli_fetch_array($result))
+{
+    $merek = $data['merek'];
+    $stok = $data['stok'];
+    $jenis = $data['jenis'];
+    $supplier = $data['supplier'];
+    $tanggal_pembelian = $data['tanggal_pemebelian'];
 }
 
-$merek = $data['merek'];
-$stok = $data['stok'];
-$jenis = $data['jenis'];
-$supplier = $data['supplier'];
-$tanggal_pembelian = $data['tanggal_pemebelian'];
+
 ?>
 
 <!DOCTYPE html>
