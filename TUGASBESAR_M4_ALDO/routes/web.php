@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeterjenController;
+use App\Http\Controllers\MesinController;
 
 
 Route::get('/', function () {
