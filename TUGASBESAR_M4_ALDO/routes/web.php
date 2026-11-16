@@ -13,6 +13,8 @@ Route::resource('deterjens', DeterjenController::class);
 
 Route::resource('mesin', MesinController::class)->except(['show']);
 
+Route::resource('pelanggan', PelangganController::class)->except(['show']);
+
 
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::get('/layanan/kelola', [LayananController::class, 'kelola'])->name('layanan.kelola');
