@@ -1,0 +1,64 @@
+*{ box-sizing: border-box; }
+body {
+    font-family:'sans serif', ;
+    background: #f1f5f9;
+    color: #1e293b;
+    max-width: 960px;
+    margin: auto;
+    padding: 24px 20px;
+}
+
+h1 { text-align: center; color: #1e1738; margin-bottom: 8px; }
+h3 { margin-top: 28px; color: #465974; }
+
+a { color: #3b609c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Tabel */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+}
+th, td {
+    border: 0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 10px 12px !important;
+    text-align: left;
+}
+th { background: #2563eb; color: #fff; }
+tr:hover td { background: #f8fafc; }
+
+/* Form */
+form { background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0, 0, 0, .1); }
+form[style*="inline"] { background: none; padding: 0; box-shadow: none; }
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+input:focus, select:focus { outline: 2px solid #93c5fd; border-color: #2563eb; }
+
+/* Tombol */
+button {
+    background: #1e293b;
+    color: #fff;
+    border: 0;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+button:hover { background: #1d4ed8; }
+table button { background: #dc2626; padding: 4px 10px; }
+table button:hover { background: #b91c1c; }
+
+/* Pesan sukses / error */
+p[style*="green"] { background: #dcfce7; padding: 10px 14px; border-radius: 6px; }
+ul[style*="red"]  { background: #fee2e2; padding: 10px 14px 10px 32px; border-radius: 6px; }
