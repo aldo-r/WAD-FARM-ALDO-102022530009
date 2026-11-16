@@ -9,3 +9,7 @@ Route::get('/', function () {
 });
 
 Route::resource('deterjens', DeterjenController::class);
+
+Route::resource('mesin', MesinController::class)->except(['show']);
+
+
