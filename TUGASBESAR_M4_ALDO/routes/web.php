@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeterjenController;
 use App\Http\Controllers\MesinController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\TarifController;
 
 
 Route::get('/', function () {
