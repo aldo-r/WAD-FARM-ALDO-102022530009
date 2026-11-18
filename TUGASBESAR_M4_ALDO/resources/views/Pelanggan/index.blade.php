@@ -1,28 +1,29 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/a_style.css') }}">
-    <title>Modul Data Pelanggan</title>
-</head>
-<body>
-<div class="container">
-    <h1>Data Pelanggan</h1>
-    <div class="card-custom">
-        <a href="{{ route('pelanggan.create') }}" class="btn btn-primary mb-4">+ Tambah Data</a>
+@extends('layouts.app')
 
+@section('title', 'Data Pelanggan')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><i class="bi bi-people-fill me-2"></i>Data Pelanggan</h2>
+    @if(auth()->user()->isAdmin())
+        <a href="{{ route('pelanggan.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i>Tambah Data
+        </a>
+    @endif
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-bordered table-striped mb-0">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
                         <th>Alamat</th>
-                        <th>No.Telpon</th>
+                        <th>No. Telpon</th>
                         <th>Catatan</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,15 +35,24 @@
                         <td>{{ $p->notelp }}</td>
                         <td>{{ $p->catatan }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-secondary text-light btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#detail{{ $p->id_pelanggan }}">Detail</button>
-                            <a href="{{ route('pelanggan.edit', $p->id_pelanggan) }}" class="btn btn-warning text-light btn-sm">Edit</a>
-                            <form action="{{ route('pelanggan.destroy', $p->id_pelanggan) }}" method="POST" class="d-inline"
-                                  onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                            </form>
+                            <button type="button" class="btn btn-info btn-sm text-white"
+                                data-bs-toggle="modal" data-bs-target="#detail{{ $p->id_pelanggan }}">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </button>
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('pelanggan.edit', $p->id_pelanggan) }}"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil me-1"></i>Edit
+                                </a>
+                                <form action="{{ route('pelanggan.destroy', $p->id_pelanggan) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash me-1"></i>Hapus
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
 
@@ -50,9 +60,9 @@
                     <div class="modal fade" id="detail{{ $p->id_pelanggan }}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header" style="background:#1e3a5f; color:#fff;">
                                     <h5 class="modal-title">Detail Pelanggan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <p><strong>Nama:</strong> {{ $p->nama }}</p>
@@ -69,6 +79,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

@@ -1,42 +1,52 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ isset($mesin) ? 'Edit' : 'Tambah' }} Mesin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/p_style.css') }}">
-</head>
-<body>
-<div class="container" style="max-width: 600px;">
-    <h1>{{ isset($mesin) ? 'Edit' : 'Tambah' }} Mesin Laundry</h1>
-    <hr>
+@extends('layouts.app')
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $e)
-                <div>{{ $e }}</div>
-            @endforeach
-        </div>
-    @endif
+@section('title', isset($mesin) ? 'Edit Mesin' : 'Tambah Mesin')
 
-    <form action="{{ isset($mesin) ? route('mesin.update', $mesin->id) : route('mesin.store') }}" method="POST">
-        @csrf
-        @if (isset($mesin))
-            @method('PUT')
-        @endif
-
-        @foreach (['nama' => 'Nama Mesin', 'merek' => 'Merek', 'kapasitas' => 'Kapasitas', 'status' => 'Status'] as $field => $label)
-            <div class="mb-3">
-                <label class="form-label">{{ $label }}</label>
-                <input type="text" name="{{ $field }}" class="search-box w-100"
-                       value="{{ old($field, $mesin->$field ?? '') }}" required>
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-gear-fill me-2"></i>
+                    {{ isset($mesin) ? 'Edit' : 'Tambah' }} Mesin Laundry
+                </h5>
             </div>
-        @endforeach
+            <div class="card-body">
 
-        <button type="submit" class="btn">{{ isset($mesin) ? 'Perbarui' : 'Simpan' }}</button>
-        <a href="{{ route('mesin.index') }}" class="btn btn-danger">Batal</a>
-    </form>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $e)
+                            <div>{{ $e }}</div>
+                        @endforeach
+                    </div>
+                @endif
+
+                <form action="{{ isset($mesin) ? route('mesin.update', $mesin->id) : route('mesin.store') }}" method="POST">
+                    @csrf
+                    @if (isset($mesin))
+                        @method('PUT')
+                    @endif
+
+                    @foreach (['nama' => 'Nama Mesin', 'merek' => 'Merek', 'kapasitas' => 'Kapasitas', 'status' => 'Status'] as $field => $label)
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">{{ $label }}</label>
+                            <input type="text" name="{{ $field }}" class="form-control"
+                                   value="{{ old($field, $mesin->$field ?? '') }}" required>
+                        </div>
+                    @endforeach
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-save me-1"></i>{{ isset($mesin) ? 'Perbarui' : 'Simpan' }}
+                        </button>
+                        <a href="{{ route('mesin.index') }}" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle me-1"></i>Batal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-</body>
-</html>
+@endsection

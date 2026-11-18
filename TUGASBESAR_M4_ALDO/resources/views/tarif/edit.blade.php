@@ -1,45 +1,56 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Tarif</title>
-    <link rel="stylesheet" href="{{ asset('css/z_style.css') }}">
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Edit Tarif</h1>
+@section('title', 'Edit Tarif')
 
-@if ($errors->any())
-    <ul style="color: red;">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-@endif
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Edit Tarif</h5>
+            </div>
+            <div class="card-body">
 
-<form action="{{ route('tarif.update', $tarif->id_tarif) }}" method="post">
-    @csrf
-    @method('PUT')
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-    <p>Nama Paket<br>
-        <input type="text" name="nama_paket" maxlength="50"
-               value="{{ old('nama_paket', $tarif->nama_paket) }}" required>
-    </p>
+                <form action="{{ route('tarif.update', $tarif->id_tarif) }}" method="post">
+                    @csrf
+                    @method('PUT')
 
-    <p>Harga (Rp)<br>
-        <input type="number" name="harga" min="0"
-               value="{{ old('harga', $tarif->harga) }}" required>
-    </p>
-
-    <p>Estimasi Waktu<br>
-        <input type="text" name="estimasi_waktu" maxlength="20"
-               value="{{ old('estimasi_waktu', $tarif->estimasi_waktu) }}" required>
-    </p>
-
-    <button type="submit">Simpan Perubahan</button>
-    <a href="{{ route('tarif.index', $tarif->id_layanan) }}">Batal</a>
-</form>
-
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nama Paket</label>
+                        <input type="text" name="nama_paket" class="form-control"
+                               maxlength="50" value="{{ old('nama_paket', $tarif->nama_paket) }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Harga (Rp)</label>
+                        <input type="number" name="harga" class="form-control"
+                               min="0" value="{{ old('harga', $tarif->harga) }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Estimasi Waktu</label>
+                        <input type="text" name="estimasi_waktu" class="form-control"
+                               maxlength="20" value="{{ old('estimasi_waktu', $tarif->estimasi_waktu) }}" required>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-save me-1"></i>Simpan Perubahan
+                        </button>
+                        <a href="{{ route('tarif.index', $tarif->id_layanan) }}" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle me-1"></i>Batal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

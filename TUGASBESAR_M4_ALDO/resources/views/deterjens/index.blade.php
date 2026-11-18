@@ -3,7 +3,9 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Daftar Deterjen</h2>
-        <a class="btn btn-success" href="{{ route('deterjens.create') }}">Tambah Deterjen</a>
+        @if(auth()->user()->isAdmin())
+            <a class="btn btn-success" href="{{ route('deterjens.create') }}">Tambah Deterjen</a>
+        @endif
     </div>
 
     @if ($message = Session::get('success'))
@@ -36,13 +38,15 @@
                             <td>{{ $deterjen->tanggal_pembelian}}</td>
                             <td>{{ $deterjen->stok }}</td>
                             <td>
-                                <form action="{{ route('deterjens.destroy', $deterjen->id) }}" method="POST">
-                                    <a class="btn btn-info btn-sm text-white" href="{{ route('deterjens.show', $deterjen->id) }}">Detail</a>
+                                <a class="btn btn-info btn-sm text-white" href="{{ route('deterjens.show', $deterjen->id) }}">Detail</a>
+                                @if(auth()->user()->isAdmin())
                                     <a class="btn btn-primary btn-sm" href="{{ route('deterjens.edit', $deterjen->id) }}">Edit</a>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                </form>
+                                    <form action="{{ route('deterjens.destroy', $deterjen->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty
